@@ -1,0 +1,51 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 22 # Specify your Node.js version
+    commands:
+      - echo "Installing dependencies (if any)..."
+
+  pre_build:
+    commands:
+      - echo "Preparing to package Lambda functions..."
+      - mkdir -p deployment_packages
+
+  build:
+    commands:
+      # Zip Lambda Function 1
+      - echo "Zipping lf1_a3.js..."
+      - cd lambdas
+      - zip -r9 ../deployment_packages/lf1_a3.zip lf1_a3.js
+      - echo "lf1_a3.zip created."
+
+      # Zip Lambda Function 2
+      - echo "Zipping lf2_a3.js..."
+      - zip -r9 ../deployment_packages/lf2_a3.zip lf2_a3.js
+      - echo "lf2_a3.zip created."
+      - cd ..
+
+  post_build:
+    commands:
+      - echo "Build completed. Deployment packages are ready."
+      - ls -al deployment_packages/
+
+      # Deploy Lambda Function 1
+      - echo "Deploying lf1_a3..."
+      - aws lambda update-function-code \
+        --function-name lf1_a3 \
+        --zip-file fileb://deployment_packages/lf1_a3.zip
+      - echo "lf1_a3 deployed successfully."
+
+      # Deploy Lambda Function 2
+      - echo "Deploying lf2_a3..."
+      - aws lambda update-function-code \
+        --function-name lf2_a3 \
+        --zip-file fileb://deployment_packages/lf2_a3.zip
+      - echo "lf2_a3 deployed successfully."
+
+artifacts:
+  files:
+    - deployment_packages/lf1_a3.zip
+    - deployment_packages/lf2_a3.zip
