@@ -1,0 +1,15 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo No build step needed. Skipping build phase.
+  post_build:
+    commands:
+      - echo Deploying frontend to S3...
+      # Sync all frontend files from local to S3 bucket
+      - aws s3 sync Frontend/ s3://frontendbk/ --delete
+artifacts:
+  files:
+    - "**/*"
+  base-directory: "Frontend" # Path to the frontend directory
