@@ -33,16 +33,12 @@ phases:
 
       # Deploy Lambda Function 1
       - echo "Deploying lf1_a3..."
-      - aws lambda update-function-code \
-        --function-name lf1_a3 \
-        --zip-file fileb://deployment_packages/lf1_a3.zip
+      - aws lambda update-function-code --function-name lf1_a3 --zip-file fileb://deployment_packages/lf1_a3.zip
       - echo "lf1_a3 deployed successfully."
 
       # Deploy Lambda Function 2
       - echo "Deploying lf2_a3..."
-      - aws lambda update-function-code \
-        --function-name lf2_a3 \
-        --zip-file fileb://deployment_packages/lf2_a3.zip
+      - aws lambda update-function-code --function-name lf2_a3 --zip-file fileb://deployment_packages/lf2_a3.zip
       - echo "lf2_a3 deployed successfully."
 
 artifacts:
